@@ -18,10 +18,14 @@ process.stdin.on("end", (_) => {
 function readline() {
   return inputString[currentLine++];
 }
+const readInt = () => parseInt(readline());
+const readIntArr = () => readline().split(" ").map(Number);
+const cl = console.log;
 
 function main() {
   //code here
-  //debug using node <filename>.js < input.txt
-  const numCases = parseInt(readline());
-  for (let i = 0; i < numCases; i++) {}
+  const numCases = readInt();
+  for (let i = 0; i < numCases; i++) {
+    //...
+  }
 }
