@@ -23,11 +23,24 @@ async function promptValidate(query, validator) {
   return response;
 }
 
+const langConfigs = {
+  js: {
+    templatePath: "../templates/nodejs.js",
+    runScriptPath: "./scripts/run_nodejs.sh",
+  },
+};
+const validLangs = Object.keys(langConfigs);
+
 async function main() {
   // This should match 0123A
   const reg = /^([0-9]{1,5})([A-Z][0-9]?)$/;
   let pid = await promptValidate("Enter problem id: ", (n) => reg.test(n));
   const [id, subproblem] = pid.match(reg).slice(1);
+
+  const lang = await promptValidate(
+    `Enter Lang\n One of (${validLangs.join(" ")}): `,
+    (n) => validLangs.includes(n)
+  );
 
   const problemPath = path.join(__dirname, `../solutions/${id}/${subproblem}`);
   if (fs.existsSync(problemPath)) {
@@ -44,24 +57,23 @@ async function main() {
   }
   fs.mkdirSync(problemPath, { recursive: true });
 
-  const template = fs.readFileSync(
-    path.join(__dirname, "../templates/nodejs.js"),
-    "utf-8"
-  );
-  fs.writeFileSync(`${problemPath}/index.js`, template);
   fs.writeFileSync(`${problemPath}/input.txt`, "");
-
-  const runScript = fs.readFileSync(
-    path.join(__dirname, "./scripts/run_nodejs.sh"),
-    "utf-8"
-  );
-  fs.writeFileSync(`${problemPath}/run.sh`, runScript);
 
   const cleanupScript = fs.readFileSync(
     path.join(__dirname, "./scripts/cleanup.sh"),
     "utf-8"
   );
   fs.writeFileSync(`${problemPath}/done.sh`, cleanupScript);
+
+  const { templatePath, runScriptPath } = langConfigs[lang];
+
+  const template = fs.readFileSync(path.join(__dirname, templatePath), "utf-8");
+  const runScript = fs.readFileSync(
+    path.join(__dirname, runScriptPath),
+    "utf-8"
+  );
+  fs.writeFileSync(`${problemPath}/index.js`, template);
+  fs.writeFileSync(`${problemPath}/run.sh`, runScript);
 
   exec(
     `xdg-open https://codeforces.com/problemset/problem/${id}/${subproblem}`
