@@ -61,7 +61,7 @@ async function main() {
     path.join(__dirname, "./scripts/cleanup.sh"),
     "utf-8"
   );
-  fs.writeFileSync(`${problemPath}/cleanup.sh`, cleanupScript);
+  fs.writeFileSync(`${problemPath}/done.sh`, cleanupScript);
 
   exec(`code ${problemPath} -r`);
 
