@@ -63,6 +63,9 @@ async function main() {
   );
   fs.writeFileSync(`${problemPath}/done.sh`, cleanupScript);
 
+  exec(
+    `xdg-open https://codeforces.com/problemset/problem/${id}/${subproblem}`
+  );
   exec(`code ${problemPath} -r`);
 
   rl.close();
