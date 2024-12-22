@@ -1,2 +1,2 @@
-rm *.sh input.txt
+rm *.sh *.out input.txt
 code ../../.. -r

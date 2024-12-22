@@ -1,13 +1,3 @@
-#pragma GCC optimize("O3")
-#pragma GCC target("avx2")
-
-#pragma GCC optimize("unroll-loops")
-#pragma GCC optimize("prefetch-loop-arrays")
-#pragma GCC target("avx2")
-
-#pragma clang optimize("3")
-#pragma clang target avx2
-
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -38,6 +28,8 @@
 #define MAX_IN(A) *(std::max_element(A.begin(), A.end()));
 #define MAX_AT(A) (std::max_element(A.begin(), A.end()) - A.begin());
 #define MIN_AT(A) (std::min_element(A.begin(), A.end()) - A.begin());
+
+#define PRINT(a) std::cout << a << std::endl;
 
 inline void fast()
 {
