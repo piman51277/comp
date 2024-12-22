@@ -3,6 +3,23 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { exec } = require("node:child_process");
 
+/**
+ * Config Start
+ */
+
+const langConfigs = {
+  js: {
+    templatePath: "../templates/nodejs.js",
+    templateName: "index.js",
+    runScriptPath: "./scripts/run_nodejs.sh",
+  },
+};
+const validLangs = Object.keys(langConfigs);
+
+/**
+ * Config End
+ */
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -23,13 +40,14 @@ async function promptValidate(query, validator) {
   return response;
 }
 
-const langConfigs = {
-  js: {
-    templatePath: "../templates/nodejs.js",
-    runScriptPath: "./scripts/run_nodejs.sh",
-  },
-};
-const validLangs = Object.keys(langConfigs);
+function generateCommitScript(id, subproblem) {
+  let script = [
+    `git reset`,
+    `git add .`,
+    `git commit -m "solution ${id}${subproblem}"`,
+  ];
+  return script.join("\n");
+}
 
 async function main() {
   // This should match 0123A
@@ -64,15 +82,19 @@ async function main() {
     "utf-8"
   );
   fs.writeFileSync(`${problemPath}/done.sh`, cleanupScript);
+  fs.writeFileSync(
+    `${problemPath}/commit.sh`,
+    generateCommitScript(id, subproblem)
+  );
 
-  const { templatePath, runScriptPath } = langConfigs[lang];
+  const { templatePath, runScriptPath, templateName } = langConfigs[lang];
 
   const template = fs.readFileSync(path.join(__dirname, templatePath), "utf-8");
   const runScript = fs.readFileSync(
     path.join(__dirname, runScriptPath),
     "utf-8"
   );
-  fs.writeFileSync(`${problemPath}/index.js`, template);
+  fs.writeFileSync(`${problemPath}/${templateName}`, template);
   fs.writeFileSync(`${problemPath}/run.sh`, runScript);
 
   exec(
