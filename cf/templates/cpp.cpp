@@ -51,5 +51,10 @@ int main()
 {
     fast();
 
-    return 0;
+    int numCases;
+    std::cin >> numCases;
+    FOR(_case, numCases)
+    {
+        //...
+    }
 }
