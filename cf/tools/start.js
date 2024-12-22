@@ -13,6 +13,11 @@ const langConfigs = {
     templateName: "index.js",
     runScriptPath: "./scripts/run_nodejs.sh",
   },
+  cpp: {
+    templatePath: "../templates/cpp.cpp",
+    templateName: "index.cpp",
+    runScriptPath: "./scripts/run_cpp.sh",
+  },
 };
 const validLangs = Object.keys(langConfigs);
 
@@ -56,7 +61,7 @@ async function main() {
   const [id, subproblem] = pid.match(reg).slice(1);
 
   const lang = await promptValidate(
-    `Enter Lang\n One of (${validLangs.join(" ")}): `,
+    `Enter Lang\n One of (${validLangs.join(", ")}): `,
     (n) => validLangs.includes(n)
   );
 
