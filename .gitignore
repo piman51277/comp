@@ -1,3 +1,4 @@
 cf/**/input.txt
+cf/solutions/**/*.out
 cf/solutions/**/*.sh
 .vscode
