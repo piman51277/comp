@@ -56,7 +56,7 @@ function generateCommitScript(id, subproblem) {
 
 async function main() {
   // This should match 0123A
-  const reg = /^([0-9]{1,5})([A-Z][0-9]?)$/;
+  const reg = /^([0-9]{1,6})([A-Z][0-9]?)$/;
   let pid = await promptValidate("Enter problem id: ", (n) => reg.test(n));
   const [id, subproblem] = pid.match(reg).slice(1);
 
